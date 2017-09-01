@@ -583,20 +583,20 @@ function bcExport() {
 
         // read all the relevant cells in the sheet into JS arrays
         keyValueMap.brewDate = brewMoment.format('MM/DD/YYYY');
-        var volumeRange = brewcalc.volumeSheet.getRange('B4:B38').getValues(),
+        var volumeRange = brewcalc.volumeSheet.getRange('B4:C38').getValues(),
             recipeRange = brewcalc.recipeSheet.getRange('B2:K44').getValues();
 
         var boilTime = brewcalc.recipeSheet.getRange('B1').getValue();
         keyValueMap.boilTime = boilTime;
-        keyValueMap.batchVolume = volumeRange[5][0];// volume to fermenter
-        keyValueMap.firstRunnings = volumeRange[29][0];
-        keyValueMap.preBoilVolume = volumeRange[9][0].toFixed(brewcalc.settings.decimalPlaces);
-        keyValueMap.mashThickness = volumeRange[16][0];
-        keyValueMap.strikeWater = volumeRange[18][0].toFixed(brewcalc.settings.decimalPlaces) + 'in';
-        keyValueMap.strikeTemp = volumeRange[19][0];
-        keyValueMap.firstRunningsGallons = volumeRange[29][0].toFixed(brewcalc.settings.decimalPlaces) + 'in'; // TODO: add this into brew steps as info
-        keyValueMap.batchSpargeQuarts = volumeRange[31][0].toFixed(brewcalc.settings.decimalPlaces) + 'in';
-        keyValueMap.totalWaterGallons = volumeRange[34][0].toFixed(brewcalc.settings.decimalPlaces) + 'in';
+        keyValueMap.batchVolume = volumeRange[5][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[5][1];// volume to fermenter
+        keyValueMap.firstRunnings = volumeRange[29][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[29][1];
+        keyValueMap.preBoilVolume = volumeRange[9][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[9][1];
+        keyValueMap.mashThickness = volumeRange[16][0] + volumeRange[16][1];
+        keyValueMap.strikeWater = volumeRange[18][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[18][1];
+        keyValueMap.strikeTemp = volumeRange[19][0].toFixed(0) + volumeRange[19][1];
+        keyValueMap.firstRunningsGallons = volumeRange[29][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[29][1];
+        keyValueMap.batchSpargeQuarts = volumeRange[31][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[31][1];
+        keyValueMap.totalWaterGallons = volumeRange[34][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[34][1];
 
         // export to template
         for (idx = paragraphs.length; idx--;) {
@@ -616,8 +616,8 @@ function bcExport() {
         keyValueMap.estOP = Utils.toPercent(recipeRange[40][0]);
         keyValueMap.estFG = recipeRange[4][9];
         keyValueMap.estABV = recipeRange[5][9];
-        keyValueMap.IBU = recipeRange[30][8];
-        keyValueMap.BUGU = recipeRange[31][8];
+        keyValueMap.IBU = recipeRange[31][8];
+        keyValueMap.BUGU = recipeRange[32][8];
         keyValueMap.color = bcCalculateSRM(keyValueMap.grainBill);
 
         // export to template
