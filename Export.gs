@@ -1,5 +1,36 @@
 var nonRecipeSheets = ['Water Volume', 'Mash Strike Calculator', 'Grains', 'Hops', 'Yeast', 'Settings', 'ThaiMashCalc', 'ThaiWaterVol'];
 
+/**
+ * Totals up ingredients on our summary sheet. We hope.
+ * @param {Array} range - the range sent in from sheet. It's an array of rows, where each row is an array of columns.
+ * @return {Array} first column is ingredients, second column is amount
+ * @totalIngredients
+ */
+function totalIngredients(range) {
+  var ingredientMap = [];
+  var rows = [];
+
+  range.forEach(function (iRow) {
+      for (var iCol = 0; iCol < iRow.length; iCol += 2) {
+          if (iRow[iCol] != "") {
+              var idx = ingredientMap.indexOf(iRow[iCol]);
+              if (idx >= 0) {
+                rows[idx][1] += !iRow[iCol + 1]?0:parseFloat(iRow[iCol + 1]);
+              } else {
+                  ingredientMap.push(iRow[iCol]);
+                  rows.push([iRow[iCol], !iRow[iCol + 1]?0:parseFloat(iRow[iCol + 1])]);
+              }
+          }
+      }
+  });
+  
+  rows.forEach(function(row){
+    row[1] = roundTo(row[1],2);
+  });
+  
+  return rows;
+}
+
 var Utils = {};
 /**
  * Converts decimal in string to hex in string

@@ -1,3 +1,22 @@
+
+/**
+ * Reasonably precise rounding of n to digits
+ * @param {number} n number to round
+ * @param {number} digits precision to round to
+ * @returns {number}
+ * @rountTo
+ */
+function roundTo(n, digits) {
+  if (digits === undefined) {
+    digits = 0;
+  }
+  
+  var multiplicator = Math.pow(10, digits);
+  n = parseFloat((n * multiplicator).toFixed(11));
+  var test =(Math.round(n) / multiplicator);
+  return +(test.toFixed(digits));
+}
+
 /**
  * Plato -> SG
  * (Source: http://en.wikipedia.org/wiki/Brix
@@ -10,7 +29,8 @@
  * @platoToSG
  */
 function platoToSG(inPlato) {
-  inPlato = parseInt(inPlato);
+ // inPlato = parseInt(inPlato);
+  inPlato = parseFloat(inPlato); // 09-01-2017 MBW from ParseInt
     if (typeof inPlato != "number") {  // check to make sure input is a number
         throw "input must be a number";  // throw an exception with the error message
     }
