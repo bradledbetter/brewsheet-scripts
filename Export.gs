@@ -24,10 +24,6 @@ function totalIngredients(range) {
       }
   });
   
-  rows.forEach(function(row){
-    row[1] = roundTo(row[1],2);
-  });
-  
   return rows;
 }
 
@@ -603,8 +599,13 @@ function bcExport() {
         keyValueMap.recipeName = brewcalc.recipeSheet.getRange('K1').getValue();
         keyValueMap.version = brewcalc.recipeSheet.getRange('K3').getValue();
         var brewDateObj = brewcalc.recipeSheet.getRange('M3').getValue(),
-            brewMoment = moment(brewDateObj).local(),
-            stamp = brewMoment.format('YYYY-MM-DD');
+            brewMoment;
+        if (!brewDateObj || brewDateObj === '') {
+            brewMoment = moment().local().add(1, 'days').startOf('day');
+        } else {
+            brewMoment = moment(brewDateObj).local();
+        }
+        var stamp = brewMoment.format('YYYY-MM-DD');
 
         var targetDoc = bcDuplicateTemplate(stamp + ' ' + keyValueMap.recipeName + ' v' + keyValueMap.version),
             body = targetDoc.getBody(),
