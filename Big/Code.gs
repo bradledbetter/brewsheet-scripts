@@ -7,14 +7,14 @@
  * @rountTo
  */
 function roundTo(n, digits) {
-  if (digits === undefined) {
-    digits = 0;
-  }
-  
-  var multiplicator = Math.pow(10, digits);
-  n = parseFloat((n * multiplicator).toFixed(11));
-  var test =(Math.round(n) / multiplicator);
-  return +(test.toFixed(digits));
+    if (digits === undefined) {
+        digits = 0;
+    }
+
+    var multiplicator = Math.pow(10, digits);
+    n = parseFloat((n * multiplicator).toFixed(11));
+    var test = (Math.round(n) / multiplicator);
+    return +(test.toFixed(digits));
 }
 
 /**
@@ -29,8 +29,8 @@ function roundTo(n, digits) {
  * @platoToSG
  */
 function platoToSG(inPlato) {
- // inPlato = parseInt(inPlato);
-  inPlato = parseFloat(inPlato); // 09-01-2017 MBW from ParseInt
+    // inPlato = parseInt(inPlato);
+    inPlato = parseFloat(inPlato); // 09-01-2017 MBW from ParseInt
     if (typeof inPlato != "number") {  // check to make sure input is a number
         throw "input must be a number";  // throw an exception with the error message
     }
@@ -102,10 +102,10 @@ function ouncesToGrams(inOunces) {
 * @gramsToOunces
 */
 function gramsToOunces(inGrams) {
-  if (typeof inGrams != "number") {
-    throw "input must be a number";
-  }
-  return (inGrams * 0.035274);
+    if (typeof inGrams != "number") {
+        throw "input must be a number";
+    }
+    return (inGrams * 0.035274);
 }
 
 /**

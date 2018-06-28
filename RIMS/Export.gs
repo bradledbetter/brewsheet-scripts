@@ -1,4 +1,4 @@
-var nonRecipeSheets = ['Water Volume', 'Mash Strike Calculator', 'Grains', 'Hops', 'Yeast', 'Settings', 'ThaiMashCalc', 'ThaiWaterVol'];
+var nonRecipeSheets = [ 'Water Volume', 'Mash Strike Calculator', 'Grains', 'Hops', 'Yeast', 'Settings', 'ThaiMashCalc', 'ThaiWaterVol' ];
 
 /**
  * Totals up ingredients on our summary sheet. We hope.
@@ -7,24 +7,24 @@ var nonRecipeSheets = ['Water Volume', 'Mash Strike Calculator', 'Grains', 'Hops
  * @totalIngredients
  */
 function totalIngredients(range) {
-  var ingredientMap = [];
-  var rows = [];
+    var ingredientMap = [];
+    var rows = [];
 
-  range.forEach(function (iRow) {
-      for (var iCol = 0; iCol < iRow.length; iCol += 2) {
-          if (iRow[iCol] != "") {
-              var idx = ingredientMap.indexOf(iRow[iCol]);
-              if (idx >= 0) {
-                rows[idx][1] += !iRow[iCol + 1]?0:parseFloat(iRow[iCol + 1]);
-              } else {
-                  ingredientMap.push(iRow[iCol]);
-                  rows.push([iRow[iCol], !iRow[iCol + 1]?0:parseFloat(iRow[iCol + 1])]);
-              }
-          }
-      }
-  });
-  
-  return rows;
+    range.forEach(function(iRow) {
+        for (var iCol = 0; iCol < iRow.length; iCol += 2) {
+            if (iRow[ iCol ] != "") {
+                var idx = ingredientMap.indexOf(iRow[ iCol ]);
+                if (idx >= 0) {
+                    rows[ idx ][ 1 ] += !iRow[ iCol + 1 ] ? 0 : parseFloat(iRow[ iCol + 1 ]);
+                } else {
+                    ingredientMap.push(iRow[ iCol ]);
+                    rows.push([ iRow[ iCol ], !iRow[ iCol + 1 ] ? 0 : parseFloat(iRow[ iCol + 1 ]) ]);
+                }
+            }
+        }
+    });
+
+    return rows;
 }
 
 var Utils = {};
@@ -34,7 +34,7 @@ var Utils = {};
  * @param {number} num
  * @returns {string}
  */
-Utils.doubleToHex = function (num) {
+Utils.doubleToHex = function(num) {
     var hexText = num.toString(16);
     var point = hexText.indexOf(".");
     if (point != -1) {
@@ -54,7 +54,7 @@ Utils.doubleToHex = function (num) {
  * @param {*} obj a value to check for numericity
  * @returns {boolean} true if the parameter is numeric, false if it's not
  */
-Utils.isNumeric = function (obj) {
+Utils.isNumeric = function(obj) {
     return !Utils.isArray(obj) && (obj - parseFloat(obj) + 1) >= 0;
 };
 
@@ -63,7 +63,7 @@ Utils.isNumeric = function (obj) {
  * @param {*} value
  * @returns {*|boolean}
  */
-Utils.isEmpty = function (value) {
+Utils.isEmpty = function(value) {
     return (typeof value === 'undefined') || value === '' || value === null || value !== value;
 };
 
@@ -73,7 +73,7 @@ Utils.isEmpty = function (value) {
  * @param {*} arg
  * @returns {boolean}
  */
-Utils.isArray = function (arg) {
+Utils.isArray = function(arg) {
     return Object.prototype.toString.call(arg) === '[object Array]';
 };
 
@@ -83,7 +83,7 @@ Utils.isArray = function (arg) {
  * @param {number?} decimalPlaces
  * @returns {string}
  */
-Utils.toPercent = function (num, decimalPlaces) {
+Utils.toPercent = function(num, decimalPlaces) {
     if (typeof decimalPlaces !== 'number') {
         decimalPlaces = 0;
     }
@@ -149,7 +149,7 @@ function bcRecipeSheetNames() { // Usage as custom function: =SheetNames( Google
         var sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets();
         var out = [];
         for (var i = 3; i < sheets.length; i++) {
-            var name = sheets[i - 1].getName();
+            var name = sheets[ i - 1 ].getName();
             if (nonRecipeSheets.indexOf(name) < 0) {
                 out.push(name);
             }
@@ -178,15 +178,15 @@ function bcGetGrainBill() {
         len = grainRange.length;
 
     for (; idx < len; idx++) {
-        name = grainRange[idx][0];
+        name = grainRange[ idx ][ 0 ];
         if (name === '') {
             break;
         }
         grainBill.push({
             name: name,
-            percent: grainRange[idx][3],
-            pounds: grainRange[idx][4],
-            color: grainRange[idx][7]
+            percent: grainRange[ idx ][ 3 ],
+            pounds: grainRange[ idx ][ 4 ],
+            color: grainRange[ idx ][ 7 ]
         });
     }
 
@@ -209,13 +209,13 @@ function bcGetMashProfile() {
         len = mashRange.length;
 
     for (; idx < len; idx++) {
-        temp = mashRange[idx][0];
+        temp = mashRange[ idx ][ 0 ];
         if (temp === '') {
             break;
         }
         mashSteps.push({
             temp: temp,
-            time: mashRange[idx][1]
+            time: mashRange[ idx ][ 1 ]
         });
     }
 
@@ -236,19 +236,19 @@ function bcGetHopSchedule() {
     var hopSchedule = [],
         idx = 0,
         name = '',
-        hopRange = brewcalc.recipeSheet.getRange('E23:J31').getValues(),
+        hopRange = brewcalc.recipeSheet.getRange('E23:J40').getValues(),
         len = hopRange.length;
 
     for (; idx < len; idx++) {
-        name = hopRange[idx][0];
+        name = hopRange[ idx ][ 0 ];
         if (name === '') {
             break;
         }
         hopSchedule.push({
             name: name,
-            alpha: hopRange[idx][1],
-            amount: hopRange[idx][3], // grams
-            time: hopRange[idx][4]
+            alpha: hopRange[ idx ][ 1 ],
+            amount: hopRange[ idx ][ 3 ], // grams
+            time: hopRange[ idx ][ 4 ]
         });
     }
 
@@ -271,13 +271,13 @@ function bcGetFermentationProfile() {
         len = fermRange.length;
 
     for (; idx < len; idx++) {
-        temp = fermRange[idx][0];
+        temp = fermRange[ idx ][ 0 ];
         if (temp === '') {
             break;
         }
         fermSteps.push({
             temp: temp,
-            time: fermRange[idx][1]
+            time: fermRange[ idx ][ 1 ]
         });
     }
 
@@ -307,14 +307,14 @@ function bcGenerateBrewSteps(boilTime, mashSteps, hopSteps) {
         brewSteps = [];
     for (; idx < len; idx++) {
         brewSteps.push({
-            time: mashSteps[idx].time.toFixed(0),
-            action: 'Mash Step ' + (idx + 1) + ': ' + mashSteps[idx].temp.toFixed(0) + '°F'
+            time: mashSteps[ idx ].time.toFixed(0),
+            action: 'Mash Step ' + (idx + 1) + ': ' + mashSteps[ idx ].temp.toFixed(0) + '°F'
         })
     }
 
     brewSteps.push({
         time: '15',
-        action: 'Vorlauf ' + mashSteps[len - 1].temp + '°F'
+        action: 'Vorlauf ' + mashSteps[ len - 1 ].temp + '°F'
     });
 
     brewSteps.push({
@@ -326,7 +326,7 @@ function bcGenerateBrewSteps(boilTime, mashSteps, hopSteps) {
     len = hopSteps.length;
     idx = 0;
     for (; idx < len; idx++) {
-        if (!miscAdded && hopSteps[idx].time < 15) {
+        if (!miscAdded && hopSteps[ idx ].time < 15) {
             brewSteps.push({
                 time: (boilTime - 15) + ' (15)',
                 action: '1 tab Whirlfloc'
@@ -336,11 +336,11 @@ function bcGenerateBrewSteps(boilTime, mashSteps, hopSteps) {
         }
 
         brewSteps.push({
-            time: (boilTime - hopSteps[idx].time) + ' (' + hopSteps[idx].time + ')',
-            action: hopSteps[idx].name + ', ' + hopSteps[idx].amount.toFixed(brewcalc.settings.decimalPlaces) + 'g'
+            time: (boilTime - hopSteps[ idx ].time) + ' (' + hopSteps[ idx ].time + ')',
+            action: hopSteps[ idx ].name + ', ' + hopSteps[ idx ].amount.toFixed(brewcalc.settings.decimalPlaces) + 'g'
 
         });
-        boilTime -= (boilTime - hopSteps[idx].time);
+        boilTime -= (boilTime - hopSteps[ idx ].time);
 
         if (boilTime < 0) {
             throw 'Your hop additions don\'t add up with your boil time';
@@ -498,7 +498,7 @@ function bcCalculateSRM(grainBill) {
         MCU = 0;
 
     for (; idx--;) {
-        MCU += (grainBill[idx].pounds * grainBill[idx].color) / batchVolume;
+        MCU += (grainBill[ idx ].pounds * grainBill[ idx ].color) / batchVolume;
     }
 
     return Math.pow(MCU, 0.6859) * 1.4922;
@@ -532,11 +532,11 @@ function bcReplaceKeywords(paragraph, keyValueMap) {
 
     for (var prop in keyValueMap) {
         if (keyValueMap.hasOwnProperty(prop)) {
-            if (Utils.isNumeric(keyValueMap[prop]) && typeof keyValueMap[prop].toFixed === 'function') {
-                tmp = keyValueMap[prop];
+            if (Utils.isNumeric(keyValueMap[ prop ]) && typeof keyValueMap[ prop ].toFixed === 'function') {
+                tmp = keyValueMap[ prop ];
                 text = text.replace(new RegExp('%' + prop + '%', 'g'), tmp.toFixed(brewcalc.settings.decimalPlaces));
-            } else if (!Utils.isArray(keyValueMap[prop])) {
-                text = text.replace(new RegExp('%' + prop + '%', 'g'), keyValueMap[prop]);
+            } else if (!Utils.isArray(keyValueMap[ prop ])) {
+                text = text.replace(new RegExp('%' + prop + '%', 'g'), keyValueMap[ prop ]);
             }
         }
     }
@@ -599,13 +599,8 @@ function bcExport() {
         keyValueMap.recipeName = brewcalc.recipeSheet.getRange('K1').getValue();
         keyValueMap.version = brewcalc.recipeSheet.getRange('K3').getValue();
         var brewDateObj = brewcalc.recipeSheet.getRange('M3').getValue(),
-            brewMoment;
-        if (!brewDateObj || brewDateObj === '') {
-            brewMoment = moment().local().add(1, 'days').startOf('day');
-        } else {
-            brewMoment = moment(brewDateObj).local();
-        }
-        var stamp = brewMoment.format('YYYY-MM-DD');
+            brewMoment = moment(brewDateObj).local(),
+            stamp = brewMoment.format('YYYY-MM-DD');
 
         var targetDoc = bcDuplicateTemplate(stamp + ' ' + keyValueMap.recipeName + ' v' + keyValueMap.version),
             body = targetDoc.getBody(),
@@ -620,41 +615,41 @@ function bcExport() {
 
         var boilTime = brewcalc.recipeSheet.getRange('B1').getValue();
         keyValueMap.boilTime = boilTime;
-        keyValueMap.batchVolume = volumeRange[5][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[5][1];// volume to fermenter
-        keyValueMap.firstRunnings = volumeRange[29][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[29][1];
-        keyValueMap.preBoilVolume = volumeRange[9][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[9][1];
-        keyValueMap.mashThickness = volumeRange[16][0] + volumeRange[16][1];
-        keyValueMap.strikeWater = volumeRange[18][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[18][1];
-        keyValueMap.strikeTemp = volumeRange[19][0].toFixed(0) + volumeRange[19][1];
-        keyValueMap.firstRunningsGallons = volumeRange[29][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[29][1];
-        keyValueMap.batchSpargeQuarts = volumeRange[31][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[31][1];
-        keyValueMap.totalWaterGallons = volumeRange[34][0].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[34][1];
+        keyValueMap.batchVolume = volumeRange[ 5 ][ 0 ].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[ 5 ][ 1 ];// volume to fermenter
+        keyValueMap.firstRunnings = volumeRange[ 29 ][ 0 ].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[ 29 ][ 1 ];
+        keyValueMap.preBoilVolume = volumeRange[ 9 ][ 0 ].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[ 9 ][ 1 ];
+        keyValueMap.mashThickness = volumeRange[ 16 ][ 0 ] + volumeRange[ 16 ][ 1 ];
+        keyValueMap.strikeWater = volumeRange[ 18 ][ 0 ].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[ 18 ][ 1 ];
+        keyValueMap.strikeTemp = volumeRange[ 19 ][ 0 ].toFixed(0) + volumeRange[ 19 ][ 1 ];
+        keyValueMap.firstRunningsGallons = volumeRange[ 29 ][ 0 ].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[ 29 ][ 1 ];
+        keyValueMap.batchSpargeQuarts = volumeRange[ 31 ][ 0 ].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[ 31 ][ 1 ];
+        keyValueMap.totalWaterGallons = volumeRange[ 34 ][ 0 ].toFixed(brewcalc.settings.decimalPlaces) + volumeRange[ 34 ][ 1 ];
 
         // export to template
         for (idx = paragraphs.length; idx--;) {
-            paragraphs[idx] = bcReplaceKeywords(paragraphs[idx], keyValueMap);
+            paragraphs[ idx ] = bcReplaceKeywords(paragraphs[ idx ], keyValueMap);
         }
 
         // collect data from efficiencies sheet
         keyValueMap = {};
-        keyValueMap.style = recipeRange[0][9];
-        keyValueMap.targetOG = recipeRange[2][0];
-        keyValueMap.yeast = recipeRange[2][9];
-        keyValueMap.starter = recipeRange[3][9];
-        keyValueMap.estFWG = recipeRange[25][0];
-        keyValueMap.estFWP = Utils.toPercent(recipeRange[21][0]);
-        keyValueMap.estPBG = recipeRange[31][0];
-        keyValueMap.estPBP = Utils.toPercent(recipeRange[33][0]);
-        keyValueMap.estOP = Utils.toPercent(recipeRange[40][0]);
-        keyValueMap.estFG = recipeRange[4][9];
-        keyValueMap.estABV = recipeRange[5][9];
-        keyValueMap.IBU = recipeRange[31][8];
-        keyValueMap.BUGU = recipeRange[32][8];
+        keyValueMap.style = recipeRange[ 0 ][ 9 ];
+        keyValueMap.targetOG = recipeRange[ 2 ][ 0 ];
+        keyValueMap.yeast = recipeRange[ 2 ][ 9 ];
+        keyValueMap.starter = recipeRange[ 3 ][ 9 ];
+        keyValueMap.estFWG = recipeRange[ 25 ][ 0 ];
+        keyValueMap.estFWP = Utils.toPercent(recipeRange[ 21 ][ 0 ]);
+        keyValueMap.estPBG = recipeRange[ 31 ][ 0 ];
+        keyValueMap.estPBP = Utils.toPercent(recipeRange[ 33 ][ 0 ]);
+        keyValueMap.estOP = Utils.toPercent(recipeRange[ 40 ][ 0 ]);
+        keyValueMap.estFG = recipeRange[ 4 ][ 9 ];
+        keyValueMap.estABV = recipeRange[ 5 ][ 9 ];
+        keyValueMap.IBU = recipeRange[ 39 ][ 8 ];
+        keyValueMap.BUGU = recipeRange[ 40 ][ 8 ];
         keyValueMap.color = bcCalculateSRM(keyValueMap.grainBill);
 
         // export to template
         for (idx = paragraphs.length; idx--;) {
-            paragraphs[idx] = bcReplaceKeywords(paragraphs[idx], keyValueMap);
+            paragraphs[ idx ] = bcReplaceKeywords(paragraphs[ idx ], keyValueMap);
         }
 
         // get ingredients
@@ -671,7 +666,7 @@ function bcExport() {
             stepLen,
             step;
         for (; idx--;) {
-            var table = tables[idx],
+            var table = tables[ idx ],
                 cell = table.getCell(0, 0),
                 numRows = table.getNumRows(),
                 cellText = cell.getText();
@@ -681,7 +676,7 @@ function bcExport() {
                     throw 'Your grain bill is larger than the brew sheet can handle';
                 }
                 for (stepIdx = 0; stepIdx < stepLen; stepIdx++) {
-                    step = keyValueMap.grainBill[stepIdx];
+                    step = keyValueMap.grainBill[ stepIdx ];
                     table.getCell(stepIdx + 2, 0)
                         .setText(step.pounds.toFixed(brewcalc.settings.decimalPlaces) + ' lb');
                     table.getCell(stepIdx + 2, 1).setText(Utils.toPercent(step.percent));
@@ -700,7 +695,7 @@ function bcExport() {
                     throw 'Your mash schedule is larger than the brew sheet can handle';
                 }
                 for (stepIdx = 0; stepIdx < stepLen; stepIdx++) {
-                    step = keyValueMap.mashSteps[stepIdx];
+                    step = keyValueMap.mashSteps[ stepIdx ];
                     table.getCell(stepIdx + 2, 0).setText(step.temp.toFixed(0) + '°F');
                     table.getCell(stepIdx + 2, 1).setText(step.time.toFixed(0));
                 }
@@ -710,7 +705,7 @@ function bcExport() {
                     throw 'Your hop schedule is larger than the brew sheet can handle';
                 }
                 for (stepIdx = 0; stepIdx < stepLen; stepIdx++) {
-                    step = keyValueMap.hopSchedule[stepIdx];
+                    step = keyValueMap.hopSchedule[ stepIdx ];
                     table.getCell(stepIdx + 2, 0).setText(step.amount.toFixed(brewcalc.settings.decimalPlaces));
                     table.getCell(stepIdx + 2, 1).setText(step.name);
                     table.getCell(stepIdx + 2, 2)
@@ -727,9 +722,9 @@ function bcExport() {
                     throw 'Your fermentation schedule is larger than the brew sheet can handle';
                 }
                 for (stepIdx = 0; stepIdx < stepLen; stepIdx++) {
-                    step = keyValueMap.fermSteps[stepIdx];
-                    table.getCell(stepIdx + 2, 0).setText(step.temp.toFixed(0) + '°F');
-                    table.getCell(stepIdx + 2, 1).setText(step.time.toFixed(0) + ' days');
+                    step = keyValueMap.fermSteps[ stepIdx ];
+                    table.getCell(stepIdx + 3, 0).setText(step.temp + '°F');
+                    table.getCell(stepIdx + 3, 1).setText(step.time + ' days');
                 }
             } else if (cellText.indexOf("Brew Day Timing") === 0) {
                 stepLen = keyValueMap.brewSteps.length;
@@ -737,7 +732,7 @@ function bcExport() {
                     throw 'Your brew day timing is larger than the brew sheet can handle';
                 }
                 for (stepIdx = 0; stepIdx < stepLen; stepIdx++) {
-                    step = keyValueMap.brewSteps[stepIdx];
+                    step = keyValueMap.brewSteps[ stepIdx ];
                     table.getCell(stepIdx + 2, 0).setText(step.time);
                     table.getCell(stepIdx + 2, 1).setText(step.action);
                 }
